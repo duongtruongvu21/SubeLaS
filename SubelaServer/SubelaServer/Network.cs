@@ -12,7 +12,7 @@ namespace SubelaServer
 {
     class Network
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(Network));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(Network));
 
         public TcpListener ServerSocket;
         public static Network Instance = new Network();
@@ -24,12 +24,11 @@ namespace SubelaServer
             {
                 User[i] = new User();
             }
-            ServerSocket = new TcpListener(IPAddress.Any, 5500);
+            ServerSocket = new TcpListener(IPAddress.Any, 13721);
             ServerSocket.Start();
             ServerSocket.BeginAcceptTcpClient(OnClientConnect, null);
 
-            log.Debug(456);
-            log.Debug(456/(456 + 456 - 456 / 0.5 ));
+            Log.Debug(456);
         }
 
         void OnClientConnect(IAsyncResult result)
@@ -37,7 +36,18 @@ namespace SubelaServer
             TcpClient client = ServerSocket.EndAcceptTcpClient(result);
             client.NoDelay = false;
 
+            Log.Debug(999);
             ServerSocket.BeginAcceptTcpClient(OnClientConnect, null);
+
+            for (int i = 0; i < User.Length; i++)
+            {
+                User[i].Socket = client;
+                User[i].Index = i;
+                User[i].IP = client.Client.RemoteEndPoint.ToString();
+                User[i].Start();
+                Log.Info($"Client connect from {User[i].IP}, index = {User[i].Index}");
+                return;
+            }
         }
     }
 }

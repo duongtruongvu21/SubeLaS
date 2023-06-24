@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -9,6 +10,7 @@ namespace SubelaServer
 {
     public class User
     {
+        private static readonly ILog Log = LogManager.GetLogger(typeof(Network));
         public int Index;
         public string IP;
         public TcpClient Socket;
@@ -55,7 +57,7 @@ namespace SubelaServer
         {
             Socket.Close();
             Socket = null;
-            Console.WriteLine("User disconnect: " + IP);
+            Log.Error("User disconnect: " + IP);
         } 
     }
 }
