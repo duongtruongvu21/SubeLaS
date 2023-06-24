@@ -6,15 +6,15 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "DataTypeCore/1.0.0": {
+      "DataCore/1.0.0": {
         "runtime": {
-          "DataTypeCore.dll": {}
+          "DataCore.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "DataTypeCore/1.0.0": {
+    "DataCore/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

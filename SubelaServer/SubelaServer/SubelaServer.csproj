@@ -10,6 +10,11 @@
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataTypeCore\DataCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

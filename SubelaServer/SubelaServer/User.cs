@@ -1,6 +1,9 @@
-﻿using log4net;
+﻿using DataCore.Helpers;
+using log4net;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -39,12 +42,14 @@ namespace SubelaServer
                     return;
                 }
 
-                byte[] newBytes = null;
-                Array.Resize(ref newBytes, readBytes);
+                byte[] receivedBytes = new byte[readBytes];
+                Buffer.BlockCopy(readBuff, 0, receivedBytes, 0, readBytes);
 
-                Buffer.BlockCopy(readBuff, 0, newBytes, 0, readBytes);
+                Log.Info("test");
+                Dictionary<byte, object> receivedData = DeserializeData(receivedBytes);
+                Log.Info(receivedData[1]);
 
-                if(Socket== null) return;
+                if (Socket== null) return;
                 myStream.BeginRead(readBuff, 0, Socket.ReceiveBufferSize, onReceiveData, null);
             } catch (Exception e)
             {
@@ -58,6 +63,31 @@ namespace SubelaServer
             Socket.Close();
             Socket = null;
             Log.Error("User disconnect: " + IP);
-        } 
+        }
+
+        public void SendData(Dictionary<byte, object> data)
+        {
+            if (Socket == null || myStream == null)
+            {
+                Log.Error("Socket or network stream is null");
+                return;
+            }
+
+            try
+            {
+                byte[] bytes = NetworkHelper.SerializeData(data);
+                myStream.Write(bytes, 0, bytes.Length);
+            }
+            catch (Exception e)
+            {
+                Log.Error("Error sending data: " + e.Message);
+            }
+        }
+
+        Dictionary<byte, object> DeserializeData(byte[] data)
+        {
+            string json = Encoding.UTF8.GetString(data);
+            return JsonConvert.DeserializeObject<Dictionary<byte, object>>(json);
+        }
     }
 }

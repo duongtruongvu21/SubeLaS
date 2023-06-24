@@ -1,4 +1,4 @@
-﻿namespace DataTypeCore.Enums
+﻿namespace DataCore.Enums
 {
     public enum RequestCode
     {

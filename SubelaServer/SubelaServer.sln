@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubelaServer", "SubelaServer\SubelaServer.csproj", "{418967C5-4AEC-4E4A-B803-4E197D31F5A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTypeCore", "DataTypeCore\DataTypeCore.csproj", "{3008CF51-1C77-45E2-B513-E8A01F6D5E5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataCore", "DataTypeCore\DataCore.csproj", "{3008CF51-1C77-45E2-B513-E8A01F6D5E5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
