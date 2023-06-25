@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +5,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class Network : MonoBehaviour
@@ -169,7 +169,7 @@ public class Network : MonoBehaviour
     IEnumerator send(string input, int i)
     {
         yield return new WaitForSeconds(0);
-        if(i < 10)
+        if (i < 10)
         {
             var data = new Dictionary<byte, object>();
             data[1] = input + $" {i}!";

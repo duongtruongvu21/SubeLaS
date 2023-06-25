@@ -16,19 +16,14 @@ namespace SubelaServer
 
         public TcpListener ServerSocket;
         public static Network Instance = new Network();
-        public static User[] User = new User[100];
+        public static List<Client> Clients;
 
         public void ServerStart()
         {
-            for(int i = 0; i < User.Length; i++)
-            {
-                User[i] = new User();
-            }
+            Clients = new List<Client>();
             ServerSocket = new TcpListener(IPAddress.Any, 13721);
             ServerSocket.Start();
             ServerSocket.BeginAcceptTcpClient(OnClientConnect, null);
-
-            Log.Debug(456);
         }
 
         void OnClientConnect(IAsyncResult result)
@@ -36,18 +31,25 @@ namespace SubelaServer
             TcpClient client = ServerSocket.EndAcceptTcpClient(result);
             client.NoDelay = false;
 
-            Log.Debug(999);
             ServerSocket.BeginAcceptTcpClient(OnClientConnect, null);
 
-            for (int i = 0; i < User.Length; i++)
+            int clientCount = Clients.Count;
+            for (int j = 0; j < clientCount; j++)
             {
-                User[i].Socket = client;
-                User[i].Index = i;
-                User[i].IP = client.Client.RemoteEndPoint.ToString();
-                User[i].Start();
-                Log.Info($"Client connect from {User[i].IP}, index = {User[i].Index}");
+                Clients[j].Socket = client;
+                Clients[j].Index = j;
+                Clients[j].IP = client.Client.RemoteEndPoint.ToString();
+                Clients[j].Start();
+                Log.Info($"Client connect from {Clients[j].IP}, index = {Clients[j].Index}");
                 return;
             }
+
+            Client newClient = new Client();
+            newClient.Socket = client;
+            newClient.Index = Clients.Count;
+            newClient.IP = client.Client.RemoteEndPoint.ToString();
+            newClient.Start();
+            Log.Info($"Client connect from {newClient.IP}, index = {newClient.Index}");
         }
     }
 }

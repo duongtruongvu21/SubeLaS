@@ -1,5 +1,4 @@
-﻿using DataCore.Helpers;
-using log4net;
+﻿using log4net;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SubelaServer
 {
-    public class User
+    public class Client
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(Network));
         public int Index;
@@ -62,7 +61,7 @@ namespace SubelaServer
         {
             Socket.Close();
             Socket = null;
-            Log.Error("User disconnect: " + IP);
+            Log.Error("Clients disconnect: " + IP);
         }
 
         public void SendData(Dictionary<byte, object> data)
@@ -75,13 +74,18 @@ namespace SubelaServer
 
             try
             {
-                byte[] bytes = NetworkHelper.SerializeData(data);
+                byte[] bytes = SerializeData(data);
                 myStream.Write(bytes, 0, bytes.Length);
             }
             catch (Exception e)
             {
                 Log.Error("Error sending data: " + e.Message);
             }
+        }
+
+        private byte[] SerializeData(Dictionary<byte, object> data)
+        {
+            throw new NotImplementedException();
         }
 
         Dictionary<byte, object> DeserializeData(byte[] data)
